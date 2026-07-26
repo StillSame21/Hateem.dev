@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Container } from "@/components/Container";
+import { SITE } from "@/lib/site";
 
 const LINKS = [
   { href: "#work", label: "Work" },
@@ -53,9 +54,7 @@ export function Nav() {
           </ul>
 
           <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener"
+            href={SITE.resume}
             className="mono inline-flex h-11 items-center border border-ink px-4 text-[12px] text-ink transition-colors hover:bg-ink hover:text-paper md:text-[13px]"
           >
             Résumé
