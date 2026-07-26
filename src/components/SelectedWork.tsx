@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ProjectShots } from "@/components/ProjectShots";
 import { Section } from "@/components/Section";
 import { getProjects, type Project } from "@/lib/projects";
 
@@ -12,7 +12,7 @@ export function SelectedWork() {
   const projects = getProjects();
 
   return (
-    <Section id="work" label="Selected work">
+    <Section id="work" label="Selected work" tight>
       <div className="flex flex-col">
         {projects.map((project, index) => (
           <ProjectEntry
@@ -46,19 +46,10 @@ function ProjectEntry({
         {/* Cover is always on top on mobile, and the aspect ratio is locked so
             nothing shifts as the image loads. */}
         <div className="w-full md:w-[46%] md:shrink-0">
-          {/* TODO: replace the placeholder art in public/covers with a real
-              screenshot of this project, still 16:9. */}
-          {/* No `priority` here: both covers sit well below the fold, and
+          {/* No `priority` here: shots sit well below the fold, and
               preloading them competes with the hero for bandwidth and pushes
-              LCP out. */}
-          <Image
-            src={project.cover}
-            alt={project.coverAlt}
-            width={1600}
-            height={900}
-            sizes="(min-width: 768px) 46vw, 100vw"
-            className="aspect-video w-full rounded-[3px] border border-rule bg-surface object-cover shadow-[0_1px_3px_rgba(21,25,28,0.05)]"
-          />
+              LCP out — see ProjectShots.tsx. */}
+          <ProjectShots project={project} />
         </div>
 
         <div className="md:flex-1">
@@ -81,8 +72,9 @@ function ProjectEntry({
           </p>
 
           {/* Deliberately no accent on the metrics. The brief rations --signal
-              to links, the primary button, the open slot and the availability
-              pill — "nothing else" — so these stay plain ink. */}
+              to links, the primary button, the availability card's status dot
+              and the availability pill — "nothing else" — so these stay plain
+              ink. */}
           {project.metrics.length > 0 ? (
             <ul className="mono mt-5 flex flex-col gap-2 text-[12px] text-ink md:text-[13px]">
               {project.metrics.slice(0, 3).map((metric) => (
@@ -91,7 +83,7 @@ function ProjectEntry({
             </ul>
           ) : null}
 
-          <p className="mt-6">
+          <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
             {/* TODO: the case study pages are not built in this pass, so this
                 route 404s until src/app/work/[slug]/page.tsx exists. The MDX
                 body and frontmatter it needs are already in place. */}
@@ -103,6 +95,19 @@ function ProjectEntry({
                 Read the case study →
               </span>
             </a>
+
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mono inline-flex h-11 min-w-11 items-center text-[13px] text-ink"
+              >
+                <span className="underline decoration-rule decoration-1 underline-offset-4 transition-colors hover:decoration-ink">
+                  View live demo →
+                </span>
+              </a>
+            ) : null}
           </p>
 
           {project.note ? (
