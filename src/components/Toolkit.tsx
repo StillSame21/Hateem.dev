@@ -12,15 +12,15 @@ import { Section } from "@/components/Section";
 const GROUPS = [
   {
     label: "Languages",
-    items: ["Python", "TypeScript", "JavaScript", "PHP", "SQL", "Swift"],
+    items: ["C++", "Java", "JavaScript", "PHP", "SQL"],
   },
   {
     label: "Frameworks",
-    items: ["React", "Next.js", "FastAPI", "Tailwind CSS", "SwiftUI"],
+    items: ["React", "FastAPI", "Tailwind CSS", "RestAPI"],
   },
   {
     label: "Infrastructure",
-    items: ["Docker", "MySQL", "WebSocket", "Git", "Linux", "Vercel"],
+    items: ["Docker", "MySQL", "Git", "Linux", "Vercel"],
   },
   {
     label: "Practices",

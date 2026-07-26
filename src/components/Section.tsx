@@ -11,30 +11,32 @@ export function Section({
   label,
   children,
   hairline = true,
+  tight = false,
 }: {
   id: string;
   label: string;
   children: React.ReactNode;
   hairline?: boolean;
+  tight?: boolean;
 }) {
   return (
-    <section
-      id={id}
-      aria-labelledby={`${id}-label`}
-      className="scroll-mt-[72px] pt-[72px] md:pt-[140px]"
-    >
+    <div className={tight ? "pt-10 md:pt-16" : "pt-[72px] md:pt-[140px]"}>
       {hairline ? (
-        <hr className="mb-10 border-0 border-t border-rule md:mb-14" />
+        <hr
+          className={`border-0 border-t border-rule ${tight ? "mb-8 md:mb-10" : "mb-10 md:mb-14"}`}
+        />
       ) : null}
-      <Reveal>
-        <h2
-          id={`${id}-label`}
-          className="mono mb-8 text-[12px] tracking-[0.14em] text-ink-muted uppercase md:mb-10 md:text-[13px]"
-        >
-          {label}
-        </h2>
-        {children}
-      </Reveal>
-    </section>
+      <section id={id} aria-labelledby={`${id}-label`} className="scroll-mt-[72px]">
+        <Reveal>
+          <h2
+            id={`${id}-label`}
+            className="mono mb-8 text-[12px] tracking-[0.14em] text-ink-muted uppercase md:mb-10 md:text-[13px]"
+          >
+            {label}
+          </h2>
+          {children}
+        </Reveal>
+      </section>
+    </div>
   );
 }

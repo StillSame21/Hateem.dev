@@ -6,7 +6,6 @@ const FACTS = [
   ["CGPA", "3.88"],
   ["Recognition", "Dean's Award"],
   ["Based in", "Selangor, Malaysia"],
-  ["Available", "September – December 2026"],
 ] as const;
 
 export function Background() {
@@ -22,13 +21,17 @@ export function Background() {
             in the first person, no mono type in prose.
           */}
           <p className="max-w-[62ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
-            Placeholder. I am a final-year computer science student at UiTM Shah
-            Alam, and most of what I know I learned by building the thing and
-            then finding out where it broke under load.
+            I am a final-year Computer Science student at UiTM Shah Alam, 
+            and most of what I know comes from building full-stack systems and 
+            finding out where they break as I build. My experience ranges from 
+            crafting responsive web interfaces to designing MySQL databases and 
+            integrating FastAPI and PHP backends.
+
           </p>
           <p className="mt-5 max-w-[62ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
-            Placeholder. Write two or three more sentences here about the work
-            you want to be doing and what you are looking for in a placement.
+            I am seeking for a 14-week Full-Stack or Software Engineer internship placement starting September 2026. 
+            I want to join an engineering team where I can work on high-impact systems, 
+            refine production-grade code, and help tackle complex software challenges.
           </p>
         </div>
 
