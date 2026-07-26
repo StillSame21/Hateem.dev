@@ -1,0 +1,64 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 801 >>
+stream
+BT
+/F1 22 Tf
+1 0 0 1 62 720 Tm
+(Mohamad Hateem bin Nazamid) Tj
+/F2 11 Tf
+1 0 0 1 62 692 Tm
+(PLACEHOLDER RESUME - REPLACE THIS FILE) Tj
+/F2 11 Tf
+1 0 0 1 62 660 Tm
+(This file exists so that hateem.dev's Resume button resolves to a real) Tj
+/F2 11 Tf
+1 0 0 1 62 644 Tm
+(document instead of a 404. It is not a resume.) Tj
+/F2 11 Tf
+1 0 0 1 62 612 Tm
+(To replace it, drop your PDF at public/resume.pdf, keeping the filename.) Tj
+/F2 11 Tf
+1 0 0 1 62 596 Tm
+(Nothing in the codebase needs to change.) Tj
+/F2 11 Tf
+1 0 0 1 62 564 Tm
+(Final-year BSc \(Hons\) Computer Science, Universiti Teknologi MARA) Tj
+/F2 11 Tf
+1 0 0 1 62 548 Tm
+(Available for 14-week industrial training, September - December 2026) Tj
+/F2 11 Tf
+1 0 0 1 62 532 Tm
+(hateemnaza@gmail.com  -  github.com/StillSame21  -  hateem.dev) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001102 00000 n 
+0000001204 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info << /Title (Placeholder resume - Mohamad Hateem) >> >>
+startxref
+1301
+%%EOF

@@ -1,0 +1,28 @@
+---
+title: IW-CloudMASim
+tagline: Real-time web dashboard for a MADDPG-based cloud task scheduling simulator
+stack:
+  - React
+  - FastAPI
+  - WebSocket
+  - Python
+  - Docker
+metrics:
+  - 0% error rate @ 100 concurrent users
+  - p95 latency < 320ms
+  - Lighthouse 100 / 95 / 96
+cover: /covers/iw-cloudmasim.svg
+coverAlt: Task blocks allocated across machine rows on a time axis
+featured: true
+order: 1
+---
+
+{/* TODO: write the full case study. The detail page is not built yet — this
+    body is here so the route has content the moment it is. Cover the problem,
+    the MADDPG training loop, how the WebSocket transport was tuned, and what
+    the load test actually measured. */}
+
+IW-CloudMASim is my final year project: a real-time web dashboard for a
+multi-agent reinforcement learning cloud task scheduler. Agents trained with
+MADDPG allocate incoming tasks across a simulated pool of virtual machines, and
+the dashboard streams the state of that allocation as it happens.
