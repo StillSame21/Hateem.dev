@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — the single source of truth for the whole site.
+   Do not introduce colours outside this set.
+
+   The accent (--signal) is semantic, not decorative. It marks availability,
+   live status and passing metrics. Budget for the homepage is five uses:
+     1. hero availability pill
+     2. the open scheduling slot in the allocation strip
+     3. the primary button
+     4. body links
+     5. the large contact email
+   --------------------------------------------------------------------------- */
+:root {
+  --paper: #f5f6f4; /* page background, cool neutral off-white */
+  --surface: #ffffff; /* raised surfaces, sparingly */
+  --ink: #15191c; /* primary text */
+  --ink-muted: #6b7176; /* secondary text, captions */
+  --rule: #dde1de; /* hairlines, borders */
+  --signal: #1f7a5a; /* deep green — the single accent */
+  --signal-tint: #e4f0ea; /* accent background wash */
+}
+
+/* Tokens above are aliased into Tailwind's theme so utilities like
+   `bg-paper`, `text-ink-muted` and `border-rule` generate from them.
+   Edit the values in :root, never here. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-rule: var(--rule);
+  --color-signal: var(--signal);
+  --color-signal-tint: var(--signal-tint);
+
+  --font-sans: var(--font-archivo);
+  --font-display: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
+}
+
+@layer base {
+  html {
+    /* Belt and braces against horizontal overflow at 360px. */
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible keyboard focus on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--signal-tint);
+    color: var(--ink);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Type helpers
+   --------------------------------------------------------------------------- */
+
+/* Archivo carries a real `wdth` axis, so the hero name is genuinely expanded
+   rather than synthetically stretched. font-stretch is the standards-track
+   way in; font-variation-settings is the fallback for engines that do not map
+   font-stretch onto wdth. */
+.name-expanded {
+  font-weight: 600;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.035em;
+}
+
+/* Mono is for structural and data text only — labels, dates, metrics,
+   key-value pairs. It never appears in prose. */
+.mono {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+
+   Two ideas only:
+     1. the allocation strip draws in left to right on first load (~600ms),
+        the open slot last, with a brief pulse on its dashed border
+     2. a quiet fade-and-rise as sections scroll into view (300ms)
+
+   Both are gated on `prefers-reduced-motion: no-preference`. The strip's
+   animation is pure CSS and fires on first paint. The reveal's hidden start
+   state is only ever applied by Reveal.tsx after mount, so content is visible
+   without JavaScript — see the note in that file.
+   --------------------------------------------------------------------------- */
+
+@keyframes alloc-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* The open slot's border blinks rather than casting a shadow ring: clip-path
+   clips outside the border box, so an outward box-shadow would be invisible. */
+@keyframes alloc-pulse {
+  0%,
+  100% {
+    border-color: var(--signal);
+  }
+  50% {
+    border-color: color-mix(in srgb, var(--signal) 30%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .alloc-block {
+    animation: alloc-draw 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    animation-delay: calc(var(--alloc-i, 0) * 140ms);
+  }
+
+  /* Draw in with the rest, then pulse twice once it has landed. */
+  .alloc-block--open {
+    animation:
+      alloc-draw 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both,
+      alloc-pulse 700ms ease-in-out 2;
+    animation-delay:
+      calc(var(--alloc-i, 0) * 140ms),
+      calc(var(--alloc-i, 0) * 140ms + 320ms);
+  }
+
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 300ms ease-out,
+      transform 300ms ease-out;
+  }
+}
