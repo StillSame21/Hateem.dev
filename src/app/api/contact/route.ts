@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
@@ -61,28 +62,42 @@ export async function POST(request: Request) {
     );
   }
 
-  /*
-   * TODO: send the email. Planned provider is Resend:
-   *
-   *   import { Resend } from "resend";
-   *   const resend = new Resend(process.env.RESEND_API_KEY);
-   *   await resend.emails.send({
-   *     from: "hateem.dev <contact@hateem.dev>",
-   *     to: "hateemnaza@gmail.com",
-   *     replyTo: email,
-   *     subject: `hateem.dev — ${name}`,
-   *     text: message,
-   *   });
-   *
-   * Add RESEND_API_KEY to the Vercel project environment first, and return a
-   * 502 with { ok: false } if the send throws so the form can show its error
-   * state instead of a false success.
-   */
-  console.info("[contact] submission received", {
-    name,
-    email,
-    length: message.length,
-  });
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[contact] RESEND_API_KEY is not set");
+    return NextResponse.json(
+      { ok: false, error: "Something went wrong. Please email me instead." },
+      { status: 502 },
+    );
+  }
+
+  const resend = new Resend(apiKey);
+
+  try {
+    const { error: sendError } = await resend.emails.send({
+      // Shared Resend sender until hateem.dev is a verified sending domain.
+      // Swap to "hateem.dev <contact@hateem.dev>" once that's done.
+      from: "hateem.dev <onboarding@resend.dev>",
+      to: "hateemnaza@gmail.com",
+      replyTo: email,
+      subject: `hateem.dev — ${name}`,
+      text: message,
+    });
+
+    if (sendError) {
+      console.error("[contact] Resend error", sendError);
+      return NextResponse.json(
+        { ok: false, error: "Something went wrong. Please email me instead." },
+        { status: 502 },
+      );
+    }
+  } catch (err) {
+    console.error("[contact] send threw", err);
+    return NextResponse.json(
+      { ok: false, error: "Something went wrong. Please email me instead." },
+      { status: 502 },
+    );
+  }
 
   return NextResponse.json({ ok: true });
 }
