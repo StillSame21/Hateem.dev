@@ -41,8 +41,21 @@
 
 @layer base {
   html {
-    /* Belt and braces against horizontal overflow at 360px. */
-    overflow-x: hidden;
+    /* `clip`, not `hidden`. Both stop horizontal overflow from painting, but
+       `hidden` still makes the viewport a *scroll container* — it only
+       suppresses the scrollbar, and script can scroll it freely. That is
+       exactly how the gallery's scrollIntoView() used to drag the whole page
+       sideways (see ProjectShots.tsx). `clip` creates no scroll container, so
+       there is nothing for a stray programmatic scroll to move.
+
+       Two bonuses: `overflow-x: hidden` forces the other axis to compute as
+       `auto`, whereas `clip` leaves `overflow-y: visible` alone; and `clip`
+       cannot trap the sticky header in Nav.tsx.
+
+       Support: Chrome 90, Firefox 81, Safari 16.0 — strictly below Tailwind
+       v4's own baseline (Safari 16.4 / Chrome 111 / Firefox 128), so any
+       browser that can parse this stylesheet supports it. No fallback. */
+    overflow-x: clip;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -87,6 +100,31 @@
 .mono {
   font-family: var(--font-plex-mono), ui-monospace, monospace;
   font-feature-settings: "tnum" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Selected work gallery
+   --------------------------------------------------------------------------- */
+
+/* The screenshot track is a real scroll container, so on platforms with
+   classic (non-overlay) scrollbars the browser paints a horizontal bar inside
+   the bordered box, adding ~15px to a box whose whole point is a locked 16:9
+   ratio. It is also redundant: the prev/next buttons, the dots and the track's
+   own tabIndex already expose the affordance to pointer, keyboard and AT
+   users, and hiding the bar removes no scrolling — swipe, trackpad, arrow keys
+   and the buttons all still work.
+
+   `scrollbar-width` is the standard property; the ::-webkit-scrollbar rule is
+   still required for Safari before 18.2.
+
+   This sits outside the prefers-reduced-motion block below on purpose: the
+   other .shots-scroller rule there is motion, this is not. */
+.shots-scroller {
+  scrollbar-width: none;
+}
+
+.shots-scroller::-webkit-scrollbar {
+  display: none;
 }
 
 /* ---------------------------------------------------------------------------
