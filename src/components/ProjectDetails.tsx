@@ -67,7 +67,7 @@ export function ProjectDetails({
               <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
                 The problem
               </h4>
-              <ul className="mt-2 flex max-w-[52ch] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
+              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
                 {details.problem.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -78,7 +78,7 @@ export function ProjectDetails({
               <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
                 What I built
               </h4>
-              <ul className="mt-2 flex max-w-[52ch] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
+              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
                 {details.built.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -89,7 +89,7 @@ export function ProjectDetails({
               <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
                 The hard part
               </h4>
-              <ul className="mt-2 flex max-w-[52ch] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
+              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
                 {details.hardPart.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

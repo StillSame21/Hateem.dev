@@ -1,4 +1,5 @@
 import { PLACEMENT } from "@/lib/site";
+import { hairlineClass } from "@/lib/ui";
 
 const ROWS: [string, React.ReactNode][] = [
   ["Roles", PLACEMENT.focus],
@@ -27,9 +28,7 @@ export function AvailabilityCard() {
       {ROWS.map(([key, value], index) => (
         <div
           key={key}
-          className={`flex flex-col gap-1 py-3 sm:flex-row sm:gap-4 ${
-            index === 0 ? "" : "border-t border-rule"
-          }`}
+          className={`flex flex-col gap-1 py-3 sm:flex-row sm:gap-4 ${hairlineClass(index)}`}
         >
           <dt className="text-ink-muted sm:w-[38%] sm:shrink-0">{key}</dt>
           <dd className="text-ink sm:flex-1">{value}</dd>

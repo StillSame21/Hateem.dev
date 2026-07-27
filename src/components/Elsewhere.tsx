@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section";
+import { hairlineClass } from "@/lib/ui";
 
 const ITEMS = [
   {
@@ -31,8 +32,8 @@ export function Elsewhere() {
         {ITEMS.map((item, index) => (
           <li
             key={item.title}
-            className={`flex flex-col gap-1 py-5 sm:flex-row sm:gap-8 ${
-              index === 0 ? "pt-0" : "border-t border-rule"
+            className={`flex flex-col gap-1 py-5 sm:flex-row sm:gap-8 ${hairlineClass(index)} ${
+              index === 0 ? "pt-0" : ""
             }`}
           >
             {/* The date column sits above the item on mobile. An empty date
@@ -44,7 +45,7 @@ export function Elsewhere() {
               {item.date || "—"}
             </span>
             <span className="sm:flex-1">
-              <span className="block max-w-[62ch] text-[16px] leading-[1.6] text-ink md:text-[17px]">
+              <span className="block max-w-[var(--measure-prose)] text-[16px] leading-[1.6] text-ink md:text-[17px]">
                 {item.title}
               </span>
               {item.detail ? (

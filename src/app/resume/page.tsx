@@ -13,6 +13,7 @@ import {
 } from "@/content/resume";
 import { getProjects } from "@/lib/projects";
 import { PLACEMENT, SITE } from "@/lib/site";
+import { hairlineClass } from "@/lib/ui";
 
 export const metadata: Metadata = {
   title: "Résumé",
@@ -109,9 +110,7 @@ export default function ResumePage() {
           {EDUCATION.map((entry, index) => (
             <div
               key={entry.institution}
-              className={`resume-entry flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 ${
-                index === 0 ? "" : "border-t border-rule"
-              }`}
+              className={`resume-entry flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 ${hairlineClass(index)}`}
             >
               <div>
                 <dt className="text-ink">{entry.institution}</dt>

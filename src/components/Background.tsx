@@ -1,4 +1,5 @@
 import { Section } from "@/components/Section";
+import { hairlineClass } from "@/lib/ui";
 
 const FACTS = [
   ["Institution", "Universiti Teknologi MARA, Shah Alam"],
@@ -11,7 +12,7 @@ const FACTS = [
 export function Background() {
   return (
     <Section id="background" label="Background">
-      <div className="flex flex-col gap-10 md:flex-row md:gap-16">
+      <div className="flex flex-col gap-10 md:flex-row md:gap-12">
         <div className="md:flex-1">
           {/*
             TODO: Hateem — replace the two paragraphs below with your own.
@@ -20,7 +21,7 @@ export function Background() {
             want out of the industrial training placement specifically. Written
             in the first person, no mono type in prose.
           */}
-          <p className="max-w-[62ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
+          <p className="max-w-[var(--measure-prose)] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
             I am a final-year Computer Science student at UiTM Shah Alam, 
             and most of what I know comes from building full-stack systems and 
             finding out where they break as I build. My experience ranges from 
@@ -28,7 +29,7 @@ export function Background() {
             integrating FastAPI and PHP backends.
 
           </p>
-          <p className="mt-5 max-w-[62ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
+          <p className="mt-5 max-w-[var(--measure-prose)] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
             I am seeking for a 14-week Full-Stack or Software Engineer internship placement starting September 2026. 
             I want to join an engineering team where I can work on high-impact systems, 
             refine production-grade code, and help tackle complex software challenges.
@@ -41,9 +42,7 @@ export function Background() {
           {FACTS.map(([key, value], index) => (
             <div
               key={key}
-              className={`flex flex-col gap-1 py-3 sm:flex-row sm:gap-4 ${
-                index === 0 ? "" : "border-t border-rule"
-              }`}
+              className={`flex flex-col gap-1 py-3 sm:flex-row sm:gap-4 ${hairlineClass(index)}`}
             >
               <dt className="text-ink-muted sm:w-[38%] sm:shrink-0">{key}</dt>
               <dd className="text-ink sm:flex-1">{value}</dd>
