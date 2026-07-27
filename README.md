@@ -146,22 +146,68 @@ tagline: One line describing what it is
 stack: [React, FastAPI, Postgres]
 metrics:
   - p95 latency < 200ms          # up to three are shown
-cover: /covers/<slug>.svg
-coverAlt: Describe the image for screen readers
+shots:
+  - src: /shots/<slug>1.png
+    alt: Describe what's on screen, for screen readers
+demoVideo:                        # optional — renders as slide 0 ahead of shots,
+                                   # a poster + play button; see ProjectShots.tsx
+  src: /shots/<slug>-demo.mp4
+  poster: /shots/<slug>-demo-poster.jpg
+  alt: Describe what's happening in the clip, for screen readers
+  duration: "0:57"
 note: Optional caveat shown under the links
+demoUrl: https://example.com     # optional — renders the primary "View live demo" button
+details:                          # optional — omit the whole block to hide the
+                                   # "Details" toggle entirely, no empty panel
+  problem: 1-2 sentences on the actual problem this solves
+  built:
+    - 3-4 concrete bullets
+    - prefer specifics over generic ("what") statements
+  hardPart: One short paragraph on a single real technical challenge
+  stackNotes: Optional one-liner the stack chips above don't capture
+  repoUrl: https://github.com/you/repo   # optional
 featured: false                   # featured gets the larger heading
 order: 3                          # controls position in Selected work
 ---
 ```
 
-3. Drop a 16:9 cover at `public/covers/<slug>.svg` (or `.png`/`.jpg` — update
-   `cover` to match).
+3. Drop 1-3 screenshots (16:9) at `public/shots/`, referenced by `shots` above
+   — see `ProjectShots.tsx`. Each needs a non-empty `alt`.
 4. Write the body below the frontmatter. It is read and typed today but not
    rendered, because the detail pages are not built yet.
 
 Nothing else needs touching — `Selected work` picks the file up automatically via
-`src/lib/projects.ts`, which throws at build time if `title`, `tagline` or
-`cover` is missing.
+`src/lib/projects.ts`, which throws at build time if `title`, `tagline`, `shots`,
+or a present-but-malformed `details`/`demoVideo` block is missing/invalid.
+
+### Adding a demo video
+
+`demoVideo` is optional and loads zero bytes until a visitor clicks play —
+`ProjectShots.tsx` renders a poster image behind a play button and only mounts
+the `<video>` element on click. To keep it that way, any clip added under
+`public/shots/` must be re-encoded first:
+
+```bash
+ffmpeg -i raw-recording.mp4 \
+  -c:v libx264 -preset slow -crf 30 \
+  -profile:v high -level 4.0 -pix_fmt yuv420p \
+  -g 60 -an -movflags +faststart \
+  <slug>-demo.mp4
+```
+
+- `-movflags +faststart` is mandatory — without it the browser must download
+  the entire file before playback can start, not just the first chunk.
+- `-an` drops the audio track. Keep it only if the recording actually has
+  sound; a silent AAC track is pure dead weight.
+- Target **under ~6 MB** for a ~60s 720p clip. `-crf 30` gets screen
+  recordings of mostly-static UI most of the way there; go to `32` if still
+  too large, or down to `26` if text turns mushy.
+- Grab a poster frame from a populated moment, not a blank loading state:
+  `ffmpeg -i <slug>-demo.mp4 -ss 00:00:08 -frames:v 1 -q:v 3 <slug>-demo-poster.jpg`.
+
+The filename is the cache key (`next.config.ts` sets a one-year `immutable`
+`Cache-Control` on `/shots/*.mp4`) — re-encoding a clip means renaming it, not
+overwriting it in place.
 
 ## Editing the timeline
 
@@ -187,7 +233,6 @@ draw order and label decisions are all derived.
 | `src/components/Background.tsx` | Two placeholder paragraphs to replace with your own prose. |
 | `src/components/Toolkit.tsx` | Seeded only from what this page evidences. Add what's missing, remove anything you would not want to be asked about. |
 | `src/app/api/contact/route.ts` | Wire up Resend and add `RESEND_API_KEY` in Vercel. The route validates and logs today. |
-| `src/components/SelectedWork.tsx` | `Read the case study →` points at `/work/<slug>`, which **404s until the detail pages are built**. The MDX bodies are already in place for them. |
 
 ## Contact form
 

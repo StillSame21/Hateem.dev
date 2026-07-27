@@ -11,12 +11,42 @@ metrics:
 shots:
   - src: /shots/cargo1.png
     alt: CarGO admin dashboard showing revenue collected, fleet availability, and pending pickups
-  # TODO: Hateem — add 1-2 more screenshots (customer browse/booking flow),
-  # up to 3 total. Drop the file in public/shots/ as cargo2.png, then add:
-  #   - src: /shots/cargo2.png
-  #     alt: <describe what's on screen>
+  - src: /shots/cargo2.png
+    alt: Customer "My bookings" view listing rental bookings with status, dates, and totals
+  - src: /shots/cargo3.png
+    alt: CarGO admin dashboard in dark mode with revenue breakdown and fleet status
+  - src: /shots/cargo4.png
+    alt: Customer "Browse Cars" view with filters and a grid of available vehicles
 note: This one runs on free hosting and may show a brief loading check.
 demoUrl: https://cargo.site.je
+details:
+  problem:
+    - Staff need the fleet, bookings, payments and revenue under control
+    - Customers only need to see what's genuinely free and reserve it
+    - CarGO serves both from one MySQL schema behind two role-gated entry points
+  built:
+    - Role-gated customer and admin apps over one schema, plus a super-admin
+      tier that gates admin account management
+    - The booking lifecycle end to end - conflict-checked checkout, admin
+      pickup and return confirmation, automatic late fees at the daily rate
+    - Payments with per-day add-ons, seven payment methods and a gateway stub;
+      cars soft-archive so booking history survives their removal
+    - Prepared statements throughout, a CSRF token on every state-changing
+      POST, hardened sessions, and 29 PHPUnit tests over the shared helpers
+  hardPart:
+    - "Admin car uploads had to survive shared hosting's memory ceiling - GD blowing
+      it mid-decode is an uncatchable fatal, not a recoverable exception"
+    - Nothing decodes blind - getimagesize() reads dimensions first, then a
+      byte-cost estimate rejects oversized images up front with the real limit
+    - Under the ceiling, memory_limit is raised only as far as that image needs,
+      then downscaled to 1600px with 400/800px JPEG and WebP derivatives for srcset
+    - Every stage degrades instead of failing - missing GD, missing WebP, or a
+      derivative write error all fall back to serving the plain original
+  stackNotes: >-
+    PHP 8.1+ procedural with mysqli prepared statements, no framework. Docker
+    and Compose for local dev; the live demo runs on InfinityFree shared
+    hosting.
+  repoUrl: https://github.com/StillSame21/CarGO
 featured: false
 order: 2
 ---

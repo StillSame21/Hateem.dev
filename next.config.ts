@@ -21,6 +21,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Demo clips only ever load on click (see ProjectShots.tsx), so a
+      // repeat visitor who plays one twice should never re-fetch it. The
+      // filename is the version — re-encoding a clip means renaming it, not
+      // overwriting it in place, or a cached visitor keeps the stale bytes.
+      {
+        source: "/shots/:file*.mp4",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ];
   },
 };

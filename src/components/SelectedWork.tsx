@@ -1,3 +1,4 @@
+import { ProjectDetails } from "@/components/ProjectDetails";
 import { ProjectShots } from "@/components/ProjectShots";
 import { Section } from "@/components/Section";
 import { getProjects, type Project } from "@/lib/projects";
@@ -45,7 +46,7 @@ function ProjectEntry({
       >
         {/* Cover is always on top on mobile, and the aspect ratio is locked so
             nothing shifts as the image loads. */}
-        <div className="w-full md:w-[46%] md:shrink-0">
+        <div className="w-full md:w-[54%] md:shrink-0">
           {/* No `priority` here: shots sit well below the fold, and
               preloading them competes with the hero for bandwidth and pushes
               LCP out — see ProjectShots.tsx. */}
@@ -84,31 +85,25 @@ function ProjectEntry({
           ) : null}
 
           <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
-            {/* TODO: the case study pages are not built in this pass, so this
-                route 404s until src/app/work/[slug]/page.tsx exists. The MDX
-                body and frontmatter it needs are already in place. */}
-            <a
-              href={`/work/${project.slug}`}
-              className="mono inline-flex h-11 min-w-11 items-center text-[13px] text-ink"
-            >
-              <span className="underline decoration-rule decoration-1 underline-offset-4 transition-colors hover:decoration-ink">
-                Read the case study →
-              </span>
-            </a>
-
+            {/* Primary: the one link that actually works today. bg-ink, not
+                bg-signal — the accent is rationed to five uses elsewhere on
+                the page (see README, "The accent is rationed"), so a button
+                look here comes from ink instead of spending a sixth. */}
             {project.demoUrl ? (
               <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mono inline-flex h-11 min-w-11 items-center text-[13px] text-ink"
+                className="mono inline-flex h-11 items-center justify-center bg-ink px-5 text-[13px] text-paper transition-opacity hover:opacity-90"
               >
-                <span className="underline decoration-rule decoration-1 underline-offset-4 transition-colors hover:decoration-ink">
-                  View live demo →
-                </span>
+                View live demo →
               </a>
             ) : null}
           </p>
+
+          {project.details ? (
+            <ProjectDetails details={project.details} title={project.title} />
+          ) : null}
 
           {project.note ? (
             <p className="mono mt-1 max-w-[48ch] text-[12px] leading-[1.5] text-ink-muted">

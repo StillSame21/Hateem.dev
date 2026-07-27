@@ -7,16 +7,35 @@ stack:
   - WebSocket
   - Python
   - Docker
-metrics:
-  - 0% error rate @ 100 concurrent users
-  - p95 latency < 320ms
-  - Lighthouse 100 / 95 / 96
 shots:
   - src: /shots/iw-cloudmasim1.svg
     alt: Task blocks allocated across machine rows on a time axis
   # TODO: Hateem — replace with a real screenshot of the dashboard (16:9),
   # then add up to 2 more (e.g. the live metrics/latency view) as
   # public/shots/iw-cloudmasim2.png, iw-cloudmasim3.png.
+demoVideo:
+  src: /shots/iw-cloudmasim-demo.mp4
+  poster: /shots/iw-cloudmasim-demo-poster.jpg
+  alt: Screen recording of the IW-CloudMASim dashboard streaming live task allocation
+  duration: "0:57"
+details:
+  problem:
+    - "Invisible AI training — AI cloud managers usually run silently in
+      back-end terminals, making it hard to see how well they are performing
+      or spot mistakes early"
+    - "Lack of visual tools — IW-CloudMASim turns the simulation into an
+      interactive web app, letting users launch, watch and compare AI runs
+      live in their browser"
+  built:
+    - "Live control panel — a backend web system that handles starting,
+      stopping and monitoring simulations smoothly in real time"
+    - "Interactive dashboards — real-time charts that update live across
+      multiple tabs as the AI makes decisions"
+  hardPart:
+    - "Preventing dashboard lag — receiving hundreds of live updates every
+      second originally slowed the browser down"
+    - "Capping the chart history to a fixed window fixed it, keeping the app
+      smooth even during long runs"
 featured: true
 order: 1
 ---
