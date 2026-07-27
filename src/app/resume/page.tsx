@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CopyEmail } from "@/components/CopyEmail";
 import { MonoLink } from "@/components/MonoLink";
 import {
   ACTIVITIES,
@@ -69,7 +70,10 @@ export default function ResumePage() {
 
         <ul className="mono mt-5 flex flex-wrap items-center gap-x-2">
           <li>
-            <MonoLink href={`mailto:${SITE.email}`}>{SITE.email}</MonoLink>
+            <CopyEmail
+              className="mono inline-flex h-11 min-w-11 items-center text-[13px] text-ink"
+              innerClassName="underline decoration-rule decoration-1 underline-offset-4 transition-colors group-hover:decoration-ink hover:decoration-ink"
+            />
           </li>
           <li aria-hidden="true" className="text-ink-muted">
             ·

@@ -1,23 +1,19 @@
 import { ContactForm } from "@/components/ContactForm";
+import { CopyEmail } from "@/components/CopyEmail";
 import { Section } from "@/components/Section";
-import { SITE } from "@/lib/site";
 
 export function Contact() {
   return (
     <Section id="contact" label="Contact">
       <p className="max-w-[24ch] text-[26px] leading-[1.25] text-ink md:max-w-[28ch] md:text-[38px]">
-        Open to internship offers for September to December 2026.
+        Open to internship offers for September to February 2027.
       </p>
 
       {/* The email is this section's accent and its primary call to action —
-          which is why the Send button below is the quiet outline variant. */}
+          which is why the Send button below is the quiet outline variant.
+          Copies to clipboard rather than `mailto:` — see CopyEmail.tsx. */}
       <p className="mt-6 md:mt-8">
-        <a
-          href={`mailto:${SITE.email}`}
-          className="inline-flex min-h-11 items-center text-[20px] leading-[1.3] break-all text-signal underline decoration-signal/30 decoration-1 underline-offset-[6px] transition-colors hover:decoration-signal md:text-[28px]"
-        >
-          {SITE.email}
-        </a>
+        <CopyEmail className="inline-flex min-h-11 items-center text-[20px] leading-[1.3] break-all text-signal underline decoration-signal/30 decoration-1 underline-offset-[6px] transition-colors hover:decoration-signal md:text-[28px]" />
       </p>
 
       <ContactForm />
