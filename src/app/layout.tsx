@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s — hateem.dev",
   },
   description:
-    "Final-year computer science student at UiTM Shah Alam, available for a 14-week industrial training internship from September to December 2026. Full-stack systems: real-time dashboards, distributed simulation, and the plumbing in between.",
+    "Final-year computer science student at UiTM Shah Alam, available for a 14-week industrial training internship from September to February 2027. Full-stack systems: real-time dashboards, distributed simulation, and the plumbing in between.",
   keywords: [
     "industrial training",
     "internship",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Mohamad Hateem — Final-year computer science student, UiTM",
     description:
-      "Available for a 14-week industrial training internship, September to December 2026. Klang Valley or remote.",
+      "Available for a 14-week industrial training internship, September to February 2027. Klang Valley or remote.",
     url: "https://hateem.dev",
     siteName: "hateem.dev",
     locale: "en_MY",
