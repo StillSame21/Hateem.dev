@@ -8,6 +8,16 @@ type MediaItem =
   | ({ kind: "video" } & ProjectVideo)
   | ({ kind: "image" } & ProjectShot);
 
+// Shared media frame — every render path (single image, single video,
+// carousel) goes through this so the section doesn't show two different
+// picture-frame styles depending on which project has a demo clip.
+// `overflow-hidden` clips the child's square corners to this radius.
+const FRAME =
+  "overflow-hidden rounded-[3px] border border-rule bg-surface shadow-[0_1px_3px_rgba(21,25,28,0.05)]";
+
+const SHOT_SIZES =
+  "(min-width: 1080px) 531px, (min-width: 768px) 50vw, 100vw";
+
 /**
  * Up to 4 screenshots per project, plus an optional demo clip, side-scrollable.
  * Replaces the old single-`cover` image in SelectedWork.tsx.
@@ -55,17 +65,26 @@ export function ProjectShots({ project }: { project: Project }) {
 
   if (media.length === 1) {
     const only = media[0];
-    return only.kind === "video" ? (
-      <PlaySlide item={only} active />
-    ) : (
-      <Image
-        src={only.src}
-        alt={only.alt}
-        width={1600}
-        height={900}
-        sizes="(min-width: 768px) 46vw, 100vw"
-        className="aspect-video w-full rounded-[3px] border border-rule bg-surface object-cover shadow-[0_1px_3px_rgba(21,25,28,0.05)]"
-      />
+    return (
+      <div className="relative">
+        <div className={`aspect-video w-full ${FRAME}`}>
+          {only.kind === "video" ? (
+            <PlaySlide item={only} active />
+          ) : (
+            <Image
+              src={only.src}
+              alt={only.alt}
+              width={1600}
+              height={900}
+              sizes={SHOT_SIZES}
+              className="h-full w-full object-cover"
+            />
+          )}
+        </div>
+        {/* Reserved dots-row height so a single-media project's column is the
+            same height as a carousel project's — see the real dots row below. */}
+        <div className="mt-2 h-1.5" aria-hidden="true" />
+      </div>
     );
   }
 
@@ -115,7 +134,7 @@ export function ProjectShots({ project }: { project: Project }) {
         aria-roledescription="carousel"
         aria-label={`${title} screenshots`}
         tabIndex={0}
-        className="shots-scroller flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-[3px] border border-rule focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+        className={`shots-scroller flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal ${FRAME}`}
       >
         {media.map((item, index) => (
           <div
@@ -132,7 +151,7 @@ export function ProjectShots({ project }: { project: Project }) {
                 width={1600}
                 height={900}
                 loading={index === 0 ? undefined : "lazy"}
-                sizes="(min-width: 768px) 46vw, 100vw"
+                sizes={SHOT_SIZES}
                 className="h-full w-full bg-surface object-cover"
               />
             )}
@@ -211,7 +230,7 @@ function PlaySlide({ item, active }: { item: ProjectVideo; active: boolean }) {
           alt={item.alt}
           width={1600}
           height={900}
-          sizes="(min-width: 768px) 46vw, 100vw"
+          sizes={SHOT_SIZES}
           className="h-full w-full object-cover"
         />
         <span className="absolute inset-0 flex items-center justify-center bg-ink/20 transition-colors group-hover:bg-ink/30">
