@@ -2,6 +2,7 @@ import { ProjectDetails } from "@/components/ProjectDetails";
 import { ProjectShots } from "@/components/ProjectShots";
 import { Section } from "@/components/Section";
 import { getProjects, type Project } from "@/lib/projects";
+import { hairlineClass } from "@/lib/ui";
 
 /**
  * Two entries, separated by a hairline. No cards, no boxes.
@@ -14,12 +15,12 @@ export function SelectedWork() {
 
   return (
     <Section id="work" label="Selected work" tight>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-12 md:gap-16">
         {projects.map((project, index) => (
           <ProjectEntry
             key={project.slug}
             project={project}
-            withRule={index > 0}
+            index={index}
             mirrored={index % 2 === 1}
           />
         ))}
@@ -30,15 +31,17 @@ export function SelectedWork() {
 
 function ProjectEntry({
   project,
-  withRule,
+  index,
   mirrored,
 }: {
   project: Project;
-  withRule: boolean;
+  index: number;
   mirrored: boolean;
 }) {
   return (
-    <article className={withRule ? "border-t border-rule pt-12 md:pt-16" : ""}>
+    <article
+      className={`${hairlineClass(index)} ${index > 0 ? "pt-12 md:pt-16" : ""}`}
+    >
       <div
         className={`flex flex-col gap-6 md:flex-row md:items-start md:gap-12 ${
           mirrored ? "md:flex-row-reverse" : ""
@@ -64,7 +67,7 @@ function ProjectEntry({
             {project.title}
           </h3>
 
-          <p className="mt-3 max-w-[52ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
+          <p className="mt-3 max-w-[var(--measure-prose-narrow)] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
             {project.tagline}
           </p>
 
@@ -84,12 +87,12 @@ function ProjectEntry({
             </ul>
           ) : null}
 
-          <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
-            {/* Primary: the one link that actually works today. bg-ink, not
-                bg-signal — the accent is rationed to five uses elsewhere on
-                the page (see README, "The accent is rationed"), so a button
-                look here comes from ink instead of spending a sixth. */}
-            {project.demoUrl ? (
+          {project.demoUrl ? (
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+              {/* Primary: the one link that actually works today. bg-ink, not
+                  bg-signal — the accent is rationed to five uses elsewhere on
+                  the page (see README, "The accent is rationed"), so a button
+                  look here comes from ink instead of spending a sixth. */}
               <a
                 href={project.demoUrl}
                 target="_blank"
@@ -98,15 +101,15 @@ function ProjectEntry({
               >
                 View live demo →
               </a>
-            ) : null}
-          </p>
+            </div>
+          ) : null}
 
           {project.details ? (
             <ProjectDetails details={project.details} title={project.title} />
           ) : null}
 
           {project.note ? (
-            <p className="mono mt-1 max-w-[48ch] text-[12px] leading-[1.5] text-ink-muted">
+            <p className="mono mt-4 max-w-[var(--measure-caption)] text-[12px] leading-[1.5] text-ink-muted">
               {project.note}
             </p>
           ) : null}
