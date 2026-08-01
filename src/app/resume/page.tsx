@@ -6,6 +6,7 @@ import {
   EDUCATION,
   LANGUAGES,
   REFERENCES_NOTE,
+  RESUME_PLACEMENT,
   RESUME_PROJECTS,
   SKILLS,
   SUMMARY_TEMPLATE,
@@ -51,7 +52,7 @@ export default function ResumePage() {
             className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal"
             aria-hidden="true"
           />
-          {PLACEMENT.status} · {PLACEMENT.window}
+          {PLACEMENT.status} · {RESUME_PLACEMENT.window}
         </p>
 
         {/* On-screen call-to-action row. Hidden on print — the plain contact
@@ -101,7 +102,7 @@ export default function ResumePage() {
 
       <ResumeSection label="Summary">
         <p className="resume-entry max-w-none text-[15px] leading-[1.6] text-ink-muted">
-          {SUMMARY_TEMPLATE(PLACEMENT.window, PLACEMENT.length)}
+          {SUMMARY_TEMPLATE(RESUME_PLACEMENT.window, RESUME_PLACEMENT.length)}
         </p>
       </ResumeSection>
 
@@ -165,7 +166,7 @@ export default function ResumePage() {
         <dl className="mono resume-entry flex flex-col gap-2 text-[12px] md:text-[13px]">
           <SkillRow label="Software development" items={SKILLS.softwareDevelopment} />
           <SkillRow label="Database" items={SKILLS.database} />
-          <SkillRow label="Tools" items={SKILLS.tools} />
+          <SkillRow label="Tools & DevOps" items={SKILLS.tools} />
           <SkillRow label="Basic exposure" items={SKILLS.basicExposure} />
           <SkillRow label="Soft skills" items={SKILLS.soft} />
         </dl>

@@ -1,5 +1,5 @@
 /**
- * Résumé content for `/resume`. Transcribed from the source PDF
+ * Résumé content for `/resume`. Transcribed from the current source PDF
  * (Resume_Mohamad Hateem bin Nazamid.pdf).
  *
  * Project titles and stacks are deliberately NOT repeated here — they are
@@ -17,8 +17,16 @@
 export const TITLE_LINE =
   "Full-Stack Developer Intern · Software Engineer Intern · DevOps Intern";
 
+/** The window as printed on the résumé PDF. Deliberately NOT `PLACEMENT`
+ *  from src/lib/site.ts — the hero and availability card advertise the wider
+ *  6-month window; the résumé states the specific 14-week placement. */
+export const RESUME_PLACEMENT = {
+  window: "7 September 2026 until 11 December 2026",
+  length: "14-week",
+} as const;
+
 export const SUMMARY_TEMPLATE = (window: string, length: string) =>
-  `Motivated final-year Bachelor of Computer Science student with a CGPA of 3.88 and practical skills in web development, database design, and system integration. Experienced in Java, PHP, SQL, HTML, CSS and JavaScript through academic and final year projects. Strong in teamwork, adaptability, and problem solving. Seeking an internship placement as a Full-Stack Developer for the ${length} window from ${window}, to apply technical knowledge, improve development skills, and contribute to real-world software projects.`;
+  `Motivated final-year Bachelor of Computer Science student with a CGPA of 3.88 and practical skills in web development, database design, and system integration. Experienced in using Java, PHP, SQL, HTML, CSS and JavaScript through academic and final year projects. Strong in teamwork, adaptability, and problem solving. Seeking a ${length} internship placement as a Full-Stack Developer starting ${window}, to apply technical knowledge, improve development skills, and contribute to real-world software projects.`;
 
 export type ResumeEducation = {
   institution: string;
@@ -53,16 +61,18 @@ export const RESUME_PROJECTS: Record<
     kind: "Final Year Project",
     year: "2026",
     bullets: [
-      "Developed a web interface to run and monitor cloud simulations.",
-      "Integrated React frontend with FastAPI backend to display live metrics.",
+      "Built a full-stack web platform that lets users configure, start, and monitor multi-agent cloud scheduling training and evaluation from the browser.",
+      "Implemented WebSocket streaming to update training progress and scheduling metrics live to the frontend.",
+      "Implemented a layered architecture separating the simulation engine, API gateway, and frontend for modularity.",
     ],
   },
   cargo: {
     kind: "Academic Project",
     year: "2025",
     bullets: [
-      "Developed a web-based car rental system to manage bookings, vehicles, customers, and payments.",
-      "Designed and implemented MySQL database tables for booking records, user accounts, and payment details.",
+      "Built a full-stack booking platform handling vehicles, customer accounts, reservations, and payment records.",
+      "Designed a normalised MySQL schema across bookings, vehicles, customers, and payments.",
+      "Configured a GitHub Actions CI/CD pipeline to automatically deploy the site to InfinityFree hosting over FTP on each push.",
     ],
   },
 };
@@ -70,8 +80,8 @@ export const RESUME_PROJECTS: Record<
 export const SKILLS = {
   softwareDevelopment: ["Java", "PHP", "C++", "HTML", "CSS", "React.js"],
   database: ["MySQL", "Oracle"],
-  tools: ["GitHub", "Coding Agent"],
-  basicExposure: ["FastAPI", "Python", "Dockerhub", "CI/CD"],
+  tools: ["Docker", "CI/CD (GitHub Actions)", "GitHub", "Vercel", "AI Agent CLI"],
+  basicExposure: ["FastAPI", "Python", "Dockerhub"],
   soft: ["Team Collaboration", "Adaptability", "Problem Solving", "Time Management"],
 } as const;
 

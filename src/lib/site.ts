@@ -28,7 +28,7 @@ export const SITE = {
  */
 export const PLACEMENT = {
   window: "Sept 2026 – Feb 2027",
-  length: "6 Months",
+  length: "3 - 6 Months",
   focus: "Full-Stack Developer, Software Engineer, DevOps",
   location: "Klang Valley, Malaysia",
   locationNote: "(On-site / Hybrid)",
