@@ -10,7 +10,7 @@ import { PLACEMENT, SITE } from "@/lib/site";
  */
 export function Hero() {
   return (
-    <Container className="flex min-h-[calc(100svh-3.5rem)] flex-col pt-8 pb-4 md:pt-10">
+    <Container className="flex min-h-[min(calc(100svh-3.5rem),700px)] flex-col pt-8 pb-4 md:pt-10">
       {/*
         Padding and tracking are tuned so the full sentence stays on one line at
         360px — a fully rounded pill wrapping to two lines looks broken.
