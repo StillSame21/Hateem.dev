@@ -17,46 +17,32 @@ export function SelectedWork() {
     <Section id="work" label="Selected work" tight>
       <div className="flex flex-col gap-12 md:gap-16">
         {projects.map((project, index) => (
-          <ProjectEntry
-            key={project.slug}
-            project={project}
-            index={index}
-            mirrored={index % 2 === 1}
-          />
+          <ProjectEntry key={project.slug} project={project} index={index} />
         ))}
       </div>
     </Section>
   );
 }
 
-function ProjectEntry({
-  project,
-  index,
-  mirrored,
-}: {
+export type ProjectCardProps = {
   project: Project;
+  /** Position in the list — index 0 skips the top hairline. */
   index: number;
-  mirrored: boolean;
-}) {
+};
+
+/**
+ * Stacked top-to-bottom: header (title, tagline, stack), then the media
+ * showcase at full card width, then metrics/CTA/details/note. No side-by-side
+ * columns at any viewport, so there is no shorter column to leave a gap
+ * beneath — see the layout note in ProjectShots.tsx.
+ */
+function ProjectEntry({ project, index }: ProjectCardProps) {
   return (
     <article
       className={`${hairlineClass(index)} ${index > 0 ? "pt-12 md:pt-16" : ""}`}
     >
-      <div
-        className={`flex flex-col gap-6 md:flex-row md:items-start md:gap-12 ${
-          mirrored ? "md:flex-row-reverse" : ""
-        }`}
-      >
-        {/* Cover is always on top on mobile, and the aspect ratio is locked so
-            nothing shifts as the image loads. */}
-        <div className="w-full md:w-[54%] md:shrink-0">
-          {/* No `priority` here: shots sit well below the fold, and
-              preloading them competes with the hero for bandwidth and pushes
-              LCP out — see ProjectShots.tsx. */}
-          <ProjectShots project={project} />
-        </div>
-
-        <div className="md:flex-1">
+      <div className="flex w-full max-w-full flex-col gap-5 md:gap-6">
+        <header>
           <h3
             className={`text-ink ${
               project.featured
@@ -67,20 +53,31 @@ function ProjectEntry({
             {project.title}
           </h3>
 
-          <p className="mt-3 max-w-[var(--measure-prose-narrow)] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
+          <p className="mt-3 max-w-[var(--measure-prose)] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
             {project.tagline}
           </p>
 
-          <p className="mono mt-5 text-[12px] text-ink-muted md:text-[13px]">
+          <p className="mono mt-4 text-[12px] text-ink-muted md:text-[13px]">
             {project.stack.join(" · ")}
           </p>
+        </header>
 
+        {/* No `priority` here: shots sit well below the fold, and preloading
+            them competes with the hero for bandwidth and pushes LCP out —
+            see ProjectShots.tsx. */}
+        <ProjectShots
+          shots={project.shots}
+          demoVideo={project.demoVideo}
+          title={project.title}
+        />
+
+        <div className="flex flex-col gap-4 sm:gap-5">
           {/* Deliberately no accent on the metrics. The brief rations --signal
               to links, the primary button, the availability card's status dot
               and the availability pill — "nothing else" — so these stay plain
               ink. */}
           {project.metrics.length > 0 ? (
-            <ul className="mono mt-5 flex flex-col gap-2 text-[12px] text-ink md:text-[13px]">
+            <ul className="mono flex flex-col gap-2 text-[12px] text-ink md:text-[13px]">
               {project.metrics.slice(0, 3).map((metric) => (
                 <li key={metric}>{metric}</li>
               ))}
@@ -88,7 +85,7 @@ function ProjectEntry({
           ) : null}
 
           {project.demoUrl ? (
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               {/* Primary: the one link that actually works today. bg-ink, not
                   bg-signal — the accent is rationed to five uses elsewhere on
                   the page (see README, "The accent is rationed"), so a button
@@ -109,7 +106,7 @@ function ProjectEntry({
           ) : null}
 
           {project.note ? (
-            <p className="mono mt-4 max-w-[var(--measure-caption)] text-[12px] leading-[1.5] text-ink-muted">
+            <p className="mono max-w-[var(--measure-caption)] text-[12px] leading-[1.5] text-ink-muted">
               {project.note}
             </p>
           ) : null}

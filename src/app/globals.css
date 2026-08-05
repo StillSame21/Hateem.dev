@@ -22,9 +22,11 @@
   --signal-tint: #e4f0ea; /* accent background wash */
 
   /* Prose measures — pick one of these instead of a new arbitrary `ch`
-     value. `-narrow` is for prose sharing a row with another column (the
-     Selected work text column, the Details panel); the plain one is for a
-     paragraph that owns the full row. */
+     value. `-narrow` is for prose sharing a row with another column; the
+     plain one is for a paragraph that owns the full row (the Selected work
+     tagline included — that card is a stacked single column now, and the
+     Details panel's per-section bullets sit in their own `md:grid-cols-3`
+     column, already narrower than either measure). */
   --measure-prose: 62ch;
   --measure-prose-narrow: 52ch;
   --measure-caption: 48ch;

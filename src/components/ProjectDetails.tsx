@@ -4,6 +4,11 @@ import { useId, useState } from "react";
 import { MonoLink } from "@/components/MonoLink";
 import type { ProjectDetails as ProjectDetailsData } from "@/lib/projects";
 
+type ProjectDetailsProps = {
+  details: ProjectDetailsData;
+  title: string;
+};
+
 /**
  * Inline "Details ↓" toggle and expanding panel on a project card. No
  * navigation, no route change — this is the alternative to the (currently
@@ -19,18 +24,12 @@ import type { ProjectDetails as ProjectDetailsData } from "@/lib/projects";
  * `inert` on the panel keeps the optional repo link out of tab order while
  * collapsed, so closed state has zero hidden focusable elements.
  */
-export function ProjectDetails({
-  details,
-  title,
-}: {
-  details: ProjectDetailsData;
-  title: string;
-}) {
+export function ProjectDetails({ details, title }: ProjectDetailsProps) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
 
   return (
-    <div className="mt-4">
+    <div>
       <button
         type="button"
         aria-expanded={open}
@@ -63,37 +62,10 @@ export function ProjectDetails({
             inert={!open}
             className="mt-5 flex flex-col gap-5 border-t border-rule pt-5"
           >
-            <div>
-              <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
-                The problem
-              </h4>
-              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
-                {details.problem.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
-                What I built
-              </h4>
-              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
-                {details.built.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
-                The hard part
-              </h4>
-              <ul className="mt-2 flex max-w-[var(--measure-prose-narrow)] list-outside list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[17px]">
-                {details.hardPart.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-8">
+              <DetailList heading="The problem" items={details.problem} />
+              <DetailList heading="What I built" items={details.built} />
+              <DetailList heading="The hard part" items={details.hardPart} />
             </div>
 
             {details.stackNotes ? (
@@ -110,6 +82,26 @@ export function ProjectDetails({
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+type DetailListProps = {
+  heading: string;
+  items: string[];
+};
+
+function DetailList({ heading, items }: DetailListProps) {
+  return (
+    <div>
+      <h4 className="mono text-[12px] tracking-[0.14em] text-ink-muted uppercase md:text-[13px]">
+        {heading}
+      </h4>
+      <ul className="mt-2 flex list-outside list-disc flex-col gap-2 pl-5 text-[15px] leading-[1.6] text-ink-muted marker:text-ink-muted md:text-[16px]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

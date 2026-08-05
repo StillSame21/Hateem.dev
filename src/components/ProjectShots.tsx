@@ -2,11 +2,19 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { Project, ProjectShot, ProjectVideo } from "@/lib/projects";
+import type { ProjectShot, ProjectVideo } from "@/lib/projects";
 
 type MediaItem =
   | ({ kind: "video" } & ProjectVideo)
   | ({ kind: "image" } & ProjectShot);
+
+type ProjectShotsProps = {
+  shots: ProjectShot[];
+  /** When present, replaces the shots gallery outright — see the note below. */
+  demoVideo?: ProjectVideo;
+  /** Used for the carousel's aria-label. */
+  title: string;
+};
 
 // Shared media frame — every render path (single image, single video,
 // carousel) goes through this so the section doesn't show two different
@@ -15,8 +23,9 @@ type MediaItem =
 const FRAME =
   "overflow-hidden rounded-[3px] border border-rule bg-surface shadow-[0_1px_3px_rgba(21,25,28,0.05)]";
 
-const SHOT_SIZES =
-  "(min-width: 1080px) 531px, (min-width: 768px) 50vw, 100vw";
+// Media now spans the full card width (stacked layout — see SelectedWork.tsx)
+// rather than a half-width column: 1080px container − 2×48px page padding.
+const SHOT_SIZES = "(min-width: 1080px) 984px, 100vw";
 
 /**
  * Up to 4 screenshots per project, plus an optional demo clip, side-scrollable.
@@ -33,8 +42,7 @@ const SHOT_SIZES =
  * `<video>` element itself is not mounted into the DOM until that button is
  * clicked — see PlaySlide.
  */
-export function ProjectShots({ project }: { project: Project }) {
-  const { shots, demoVideo, title } = project;
+export function ProjectShots({ shots, demoVideo, title }: ProjectShotsProps) {
   // A demo clip replaces the gallery outright rather than joining it as
   // slide 0 — a project with a demo shows the demo, full stop, no side-scroll
   // to a screenshot behind it. `shots` stays required in the frontmatter
@@ -209,9 +217,14 @@ export function ProjectShots({ project }: { project: Project }) {
  * i.e. the carousel scrolled to a different slide — so a swipe away from a
  * playing demo doesn't leave it decoding frames offscreen.
  */
-function PlaySlide({ item, active }: { item: ProjectVideo; active: boolean }) {
+type PlaySlideProps = {
+  item: ProjectVideo;
+  active: boolean;
+};
+
+function PlaySlide({ item, active }: PlaySlideProps) {
   const [playing, setPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     if (!active) videoRef.current?.pause();
